@@ -27,9 +27,10 @@ Route::group(['prefix' => 'ajax'], function () {
 
 Route::group(['prefix' => 'account'], function () {
     Route::get('/sign-up', 'AccountController@signUp');
-    Route::get('/login', 'AccountController@login');
+    Route::get('/login', 'AccountController@login')->name('account.login');
     Route::post('/auth', 'AccountController@auth');
     Route::post('/login-auth', 'AccountController@loginAuth');
+    Route::get('/signout', 'AccountController@signout');
     Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
 });
 
