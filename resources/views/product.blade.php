@@ -65,12 +65,13 @@
                 <div class="cell-xs-5 cell-sm-33 cell-md-25">
                   <div class="product-item">
                     <figure>
-                      <a href="/product/{{$product->id}}-{{str_slug($product->title)}}">
-                      <img src="/ui/images/product-item-1-270x289.jpg" alt="" width="270" height="289"/>
+                      <a href="/product/{{array_get($product, 'id')}}-{{str_slug(array_get($product, 'title'))}}">
+                      {{-- <img src="/ui/images/product-item-1-270x289.jpg" alt="" width="270" height="289"/> --}}
+                      <img src="/{{array_get($product, 'has_picture.0.filepath')}}" alt="" width="270" height="289"/>
                     </a></figure>
                     <div class="product-item-caption">
-                      <p><a href="/product/{{$product->id}}-{{str_slug($product->title)}}">{{$product->title}}</a></p>
-                      <h5 class="product-price">@money($product->price, 'NGN')</h5><a class="button button-primary" href="/product/{{$product->id}}-{{str_slug($product->title)}}">add to cart</a>
+                      <p><a href="/product/{{array_get($product, 'id')}}-{{str_slug(array_get($product,'title'))}}">{{array_get($product,'title')}}</a></p>
+                      <h5 class="product-price">@money(array_get($product,'price'), 'NGN')</h5><a class="button button-primary" href="/product/{{array_get($product, 'id')}}-{{str_slug(array_get($product, 'title'))}}">add to cart</a>
                     </div>
                   </div>
                 </div>

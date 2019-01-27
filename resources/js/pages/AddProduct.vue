@@ -13,12 +13,12 @@
                         <form method="post" @submit.prevent="submitProduct">
                             <div class="form-group">
                                 <label>Category</label>
-                                <div style="float:right;">
+                                <!-- <div style="float:right;">
                                     <a href="javascript:void(0)" id="add-category" @click="modalEvt" data-id="category" class="font-size-12" style="color: #007bff;">Add New</a>
-                                </div>
+                                </div> -->
                                 <select class="form-control" ref="category" required>
                                     <option value="">Select</option>
-                                    <option v-for="category in categories" :value="category.id" :selected="products && category.id === products.category_id">{{category.title}}</option>
+                                    <option v-for="(category, index) in categories" :value="category.id" :selected="products && category.id == products.category_id" :key="index">{{category.title}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -28,7 +28,7 @@
                                 </div>
                                 <select class="form-control" ref="brand" required>
                                     <option value="">select</option>
-                                    <option v-for="brand in brands" :value="brand.id" :selected="products && brand.id === products.brand_id">{{brand.title}}</option>
+                                    <option v-for="(brand, index) in brands" :value="brand.id" :selected="products && brand.id == products.brand_id" :key="index">{{brand.title}}</option>
                                 </select>
                             </div>
                             <hr>
@@ -38,7 +38,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" ref="description" id="editor" required>{{ products ? products.description : '' }}</textarea>
+                               <!--  <textarea class="form-control" ref="description" id="editor" required>
+                                    {{ products ? products.description : '' }}</textarea> -->
+                                    <vue-editor v-model="content"></vue-editor>
+                                   
+
                             </div>
                             <div class="form-group">
                                 <label>Price</label>
@@ -113,18 +117,25 @@ import { mapState } from 'vuex';
 import swal from 'sweetalert';
 import http from '../http';
 import helper from '../helper';
-// import Quill from 'quill';
-// import 'quill/dist/quill.snow.css';
+
+import { VueEditor } from 'vue2-editor';
+
 export default {
     name: 'AddProduct',
+    components: {
+        VueEditor
+    },
     data() {
         return {
             loading: false,
             products: [],
             update: false,
+            content: ""
         }
     },
-    created() {},
+    created() {
+       
+    },
     async mounted() {
         const id = this.$route.params.id || null;
         if (id !== null) {
@@ -196,6 +207,7 @@ export default {
             let files = e.target.files;
             let file, len = files.length;
             let preview = this.$refs.preview;
+            const MAX_FILE_SIZE = 3045;
 
             if (len > 4) return swal('Notification', 'Maximum Image Allowed is 4', 'error');
             this.$refs.placeholder.style.display = 'none';
@@ -204,7 +216,7 @@ export default {
             for (file of files) {
 
                 let filesize = Math.floor(file.size / 1000);
-                if (filesize > 3045) return swal('Notification', 'Max Filesize is 3MB', 'error');
+                if (filesize > MAX_FILE_SIZE) return swal('Notification', 'Max Filesize is 3MB', 'error');
                 const img = document.createElement('img');
                 formData.append('file[]', file);
 

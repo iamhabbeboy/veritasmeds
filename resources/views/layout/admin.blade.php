@@ -12,9 +12,10 @@
     <title>Veritas - Dashboard</title>
     <!-- Nprogress -->
 	{{-- <link href="https://unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" /> --}}
-	<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+	{{-- <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script> --}}
 	<!-- theme style -->
 	<link rel="stylesheet" href="/admin/css/master_style.css">
+	<link rel="stylesheet" href="/dist/summernote.css">
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,6 +41,8 @@ background: #fc4b6c !important;
 	background: #00acc1 !important;
 }
 	</style>
+
+
   </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -47,6 +50,14 @@ background: #fc4b6c !important;
 		@yield('content-body')
 	</div>
 <script src="/js/all.bundle.js"></script>
+	<script src="/dist/summernote.min.js"></script>
+	<script>
+ $(function() {
+   $('#editor').summernote({
+		 height: 300
+	 });
+ });
+</script>
 {{-- <script src="/admin/js/template.js"></script> --}}
 </body>
 </html>

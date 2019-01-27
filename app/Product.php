@@ -38,13 +38,15 @@ class Product extends Model
         return $this->hasMany(Picture::class, 'product_id', 'id');
     }
 
-    public function loadProducts($id = null)
+    public function loadProducts(array $hash)
     {
         $query = null;
-        if ($id === null) {
+        if ($hash == null) {
             $query = $this->whereNotNull('title');
         } else {
-            $query = $this->where('id', $id);
+            $query_columns = array_keys($hash);
+            $query_column = array_get($query_columns, '0');
+            $query = $this->where($query_column, $hash[$query_column]);
         }
         return $query->with('hasCategory')->with('hasBrand')->with('hasPicture');
     }

@@ -17,7 +17,6 @@ import store from './store';
 
 Vue.use(VueRouter);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('nav-component', require('./components/NavComponent.vue'));
 Vue.component('sidebar-component', require('./components/SideBarComponent.vue'));
 Vue.component('navbar-component', require('./components/NavbarComponent.vue'));

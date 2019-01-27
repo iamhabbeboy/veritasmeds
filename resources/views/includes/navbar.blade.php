@@ -19,8 +19,8 @@
                 </div>
                 <div class="block-right">
                   <ul class="list-inline">
-                    <li><a href="log-in.html">Log In</a></li>
-                    <li><a href="register.html">Create an account</a></li>
+                    <li><a href="/account/login">Log In</a></li>
+                    <li><a href="/account/sign-up">Create an account</a></li>
                   </ul>
                 </div>
               </div>

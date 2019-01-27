@@ -13,5 +13,5 @@ class Picture extends Model
     /**
      * @var array
      */
-    protected $fillable = ['filepath', 'status', 'product_id'];
+    protected $fillable = ['filepath', 'status', 'product_id', 'type'];
 }

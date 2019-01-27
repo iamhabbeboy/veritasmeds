@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use Session;
 use App\Product;
+use App\Picture;
+use App\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,29 +15,50 @@ class CategoryController extends Controller
      */
     protected $category;
     /**
+     * product model
+     *
+     * @var [object]
+     */
+    protected $product;
+    /**
      * @param Category $category
      */
-    public function __construct(Category $category)
+    public function __construct(Category $category, Product $product)
     {
         $this->category = $category;
+        $this->product = $product;
     }
     /**
      * @return mixed
      */
     public function index()
     {
-        return $this->category->all();
+        $response = $this->category->loadCategory()->get();
+        return response()->json($response);
     }
 
     public function store(Request $request)
     {
         $response = $this->category->firstOrCreate(['title' => $request->title], $request->all());
+        if (session('drugimages')) {
+
+            $pictures = session('drugimages')[0];
+            $lastID = $response->id;
+            $store_hash = [
+                'product_id' => $lastID,
+                'type' => 'category',
+                'filepath' => array_get($pictures, 'filepath'),
+            ];
+            Picture::create($store_hash);
+        }
+        session::forget('drugimages');
+
         return response()->json($response);
     }
 
     public function page()
     {
-        $categorys = $this->category->all();
+        $categorys = $this->category->loadCategory()->get()->toArray();
         return view('category', compact('categorys'));
     }
 
@@ -45,7 +68,8 @@ class CategoryController extends Controller
             return redirect('/');
         }
 
-        $products = Product::where('category_id', $id)->get();
+        $products = $this->product->loadProducts(['category_id' => $id])
+            ->get()->toArray();
         $categorys = Category::all();
         return view('product', compact('products', 'categorys'));
     }

@@ -30,14 +30,13 @@ export default {
         }
         return swal('Notification', 'Error Occured while creating Staff Information', 'error')
     },
-    storeFile(formdata) {
+    storeFile: (formdata) => {
         http.object('picture', formdata).then((response) => {
             let preview = document.querySelectorAll('#preview img');
-            Array.prototype.map.call(preview, (resp) => {
-                resp.style.opacity = '1';
-            })
+            Array.prototype.map.call(preview, (resp) => resp.style.opacity = '1');
         }).catch(function(err) {
             swal('Notification', 'Error Occured, please reload this page', 'error');
         })
-    }
+    },
+    testing: () => { console.log('Hello world !')}
 }

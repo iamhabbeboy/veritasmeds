@@ -19,6 +19,12 @@
                 <li class="header nav-small-cap">PRODUCT MANAGEMENT</li>
                 </li>
                 <li>
+                    <router-link to="/panel/category">
+                        <i class="fa fa-history"></i>
+                        <span>Category</span>
+                    </router-link>
+                </li>
+                <li>
                     <router-link to="/panel/add-product">
                         <i class="fa fa-plus-circle"></i>
                         <span>Add Product</span>

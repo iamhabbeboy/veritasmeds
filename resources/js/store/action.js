@@ -10,6 +10,14 @@ export default {
             commit('SET_CATEGORY', []);
         }
     },
+    async storecategory({ commit }, payload) {
+        try {
+            const category = await http.post('category', payload);
+            commit('ADD_CATEGORY', category.data);
+        } catch (error) {
+            commit('ADD_CATEGORY', []);
+        }
+    },
     async loadbrand({ commit }) {
         try {
             const brand = await http.get('brand', {});

@@ -23,7 +23,7 @@ class ProductController extends Controller
     }
     public function index()
     {
-        $response = $this->product->loadProducts();
+        $response = $this->product->loadProducts([]);
         return response()->json($response->get()->toArray());
     }
     /**
@@ -40,6 +40,7 @@ class ProductController extends Controller
             foreach ($pictures as $key => $picture) {
                 array_push($drugimage, [
                     'product_id' => $lastID,
+                    'type' => 'product',
                     'filepath' => array_get($picture, 'filepath'),
                 ]);
             }
@@ -62,7 +63,8 @@ class ProductController extends Controller
      */
     public function page(Category $category)
     {
-        $products = $this->product->all();
+        $products = $this->product->loadProducts([])
+            ->get()->toArray();
         $categorys = $category::all();
         return view('product', compact('products', 'categorys'));
     }
@@ -71,7 +73,7 @@ class ProductController extends Controller
         if ($id === null) {
             return redirect(route('homepage'));
         }
-        $product = $this->product->loadProducts($id)
+        $product = $this->product->loadProducts(['id' => $id])
             ->first()->toArray();
         return view('single-product', compact('product'));
     }

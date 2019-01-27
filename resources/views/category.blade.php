@@ -42,14 +42,24 @@
             <div class="cell-lg-8">
               <h3 class="section-title text-center text-sm-left">Product Categories</h3>
               <div class="range range-40 range-lg-60">
+
                 @if(count($categorys) > 0)
+
                 @foreach($categorys as $category)
+
                 <div class="cell-xs-5 cell-sm-33 cell-md-25">
-                  <div class="thumb-default"><a href="products.html"><img src="/ui/images/product-1-270x289.jpg" alt="" width="270" height="289"/></a>
+                  <div class="thumb-default">
+                  <a href="category/{{array_get($category,'id')}}-{{str_slug(array_get($category,'title'))}}">
+                    @if (array_get($category, 'has_picture') && array_get($category, 'has_picture.type') == 'category')
+                      <img src="/{{array_get($category, 'has_picture.filepath')}}" alt="" width="270" height="289"/>
+                    @else 
+                      <img src="/ui/images/product-1-270x289.jpg" alt="" width="270" height="289"/>
+                    @endif
+                  </a>
                     <div class="thumb-default-caption">
                       <h5 class="thumb-default-title">
-                        <a href="category/{{$category->id}}-{{str_slug($category->title)}}">{{$category->title}}</a></h5>
-                        <p>{{$category->description ? $category->description: ''}}</p>
+                        <a href="category/{{array_get($category,'id')}}-{{str_slug(array_get($category,'title'))}}">{{array_get($category, 'title')}}</a></h5>
+                        <p>{{array_get($category, 'description') ? array_get($category, 'description'): ''}}</p>
                     </div>
                   </div>
                 </div>

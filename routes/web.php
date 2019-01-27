@@ -19,7 +19,19 @@ Route::get('/category', 'CategoryController@page')->name('category');
 Route::get('/category/{id}', 'CategoryController@single')->name('single');
 Route::get('/product', 'ProductController@page')->name('product');
 Route::get('/product/{id}', 'ProductController@single')->name('product_single');
-Route::get('/cart/{id}', 'ShoppingCartController@index')->name('cart');
+Route::get('/shopping-cart', 'ShoppingCartController@index')->name('cart');
+
+Route::group(['prefix' => 'ajax'], function () {
+    Route::post('/cart', 'CartController@store');
+});
+
+Route::group(['prefix' => 'account'], function () {
+    Route::get('/sign-up', 'AccountController@signUp');
+    Route::get('/login', 'AccountController@login');
+    Route::post('/auth', 'AccountController@auth');
+    Route::post('/login-auth', 'AccountController@loginAuth');
+    Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
+});
 
 Auth::routes();
 

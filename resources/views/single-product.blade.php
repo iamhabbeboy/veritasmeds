@@ -41,7 +41,7 @@
                 @if (array_get($product, 'has_picture'))
                   @foreach (array_column(array_get($product, 'has_picture'), 'filepath') as $picture )
                   <div class="item">
-                    <img src="/{{$picture}}" alt="" style="width:365px;height:464px;"/>
+                    <img src="/{{$picture}}" alt="">
                   </div>
                   @endforeach
                 @endif
@@ -61,13 +61,8 @@
             </div>
             <div class="cell-md-5 cell-lg-5">
               <h3 class="section-title">{{array_get($product, 'title')}}</h3>
-              <p class="large">{{array_get($product, 'description')}}</p>
-          {{--     <ul class="list-index">
-                <li><span class="list-index-counter"></span>Fast acting</li>
-                <li><span class="list-index-counter"></span>Non sedating</li>
-                <li><span class="list-index-counter"></span>Indoor and outdoor allergy relief</li>
-                <li><span class="list-index-counter"></span>Long lasting</li>
-              </ul> --}}
+              <p class="large">{!! array_get($product, 'description') !!}</p>
+        
               @if(array_get($product, 'has_brand'))
                 <p class="large">Manufactured by {{array_get($product, 'has_brand.title')}}</p>
               @endif
@@ -85,7 +80,7 @@
                 <div class="cell-xs-10">
                   <ul class="list-inline">
                     <li>
-                      <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="20">
+                      <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="20" id="quantity-count">
                     </li>
                     <li class="text-bold text-gray-darker">Quantity</li>
                   </ul>
@@ -108,7 +103,13 @@
                     <li><a class="icon icon-primary fa-envelope" href="#"></a></li>
                   </ul>
                 </div>
-                <div class="cell-xs-10"><a class="button button-primary" href="shopping-cart.html">add to cart</a></div>
+                <div class="cell-xs-10">
+                <form id="cart-form">
+                  <input type="hidden" value="{{Session::token()}}" name="_token" id="_token">
+                  <input type="hidden" value="{{array_get($product, 'id')}}:{{array_get($product, 'price')}}" id="cart-info">
+                </form>
+                <a class="button button-primary" href="javascript:void(0)" id="add-cart">add to cart</a>
+                </div>
               </div>
             </div>
           </div>
@@ -118,8 +119,8 @@
         <div class="shell">
           <div class="range range-30">
             <div class="cell-md-5 cell-lg-3">
-              <h4>About Product</h4>
-              <p>Relieves symptoms due to hay fever <br>For itchy, watery eyes<br>Alcohol and dye free <br>Non-drowsy <br>Ages 2 years and older <br>Indoor and outdoor allergies <br>12 hour relief</p>
+              {{-- <h4>About Product</h4>
+              <p>Relieves symptoms due to hay fever <br>For itchy, watery eyes<br>Alcohol and dye free <br>Non-drowsy <br>Ages 2 years and older <br>Indoor and outdoor allergies <br>12 hour relief</p> --}}
             </div>
             <div class="cell-md-5 cell-lg-5">
               <h4>Reviews</h4>
@@ -203,7 +204,8 @@
                 <figure><a href="single-product.html"><img src="/ui/images/product-item-1-270x289.jpg" alt="" width="270" height="289"/></a></figure>
                 <div class="product-item-caption">
                   <p><a href="single-product.html">Alavert Orally Disintegrating Tablets, 60 tab</a></p>
-                  <h5 class="product-price">$24.98</h5><a class="button button-primary" href="shopping-cart.html">add to cart</a>
+                  <h5 class="product-price">$24.98</h5>
+                  <a class="button button-primary" href="shopping-cart.html">add to cart</a>
                 </div>
               </div>
             </div>
@@ -319,4 +321,5 @@
           </div>
         </div>
       </section>
+
 @stop

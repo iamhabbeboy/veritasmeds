@@ -32,12 +32,18 @@
           </li>
         </ul>
       </section>
+  
       <section class="section-lg bg-white section">
         <div class="shell">
-          <h3 class="section-title">shopping cart</h3>
+          <h3 class="section-title">
+          shopping cart 
+         </h3>
+          <div style="font-size: 18px !important;float:right;">Total product(s) in cart: 
+          {{ Session::has('pharm_cart') ? count(Session::get('pharm_cart')) : 0 }} </div>
           <div class="range range-30 range-md-justify">
             <div class="cell-xs-10">
               <div class="table-custom-responsive table-shopping-cart">
+                @if (Session::has('pharm_cart'))
                 <table class="table-custom table-custom-secondary">
                   <thead>
                     <tr>
@@ -50,34 +56,43 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @php
+                      $total = 0;
+                    @endphp
+                    @foreach($combine_carts as $cart)
+                        @php $total = $total + (float) (array_get($cart, 'qty') * array_get($cart, 'price')); @endphp
+                      <tr>
+                        <td>
+                        <a href="#"><span class="icon icon-primary material-icons-close icon-lg"></span></a>
+                        <a href="#"><span class="icon icon-primary material-icons-edit icon-lg"></span></a>
+                        </td>
+                        <td><img src="/{{array_get($cart, 'has_picture.0.filepath')}}" alt="" width="29" height="83"/>
+                        </td>
+                        <td><a class="text-gray-darker" href="single-product.html"> {{array_get($cart, 'title')}}</a></td>
+                        <td>@money(array_get($cart, 'price'), 'NGN')</td>
+                        <td>{{array_get($cart, 'qty') ?? 'N/A'}} </td>
+                        <td> @money(array_get($cart, 'price') * array_get($cart, 'qty'), 'NGN')</td>
+                      </tr>
+                    @endforeach
                     <tr>
-                      <td><span class="icon icon-primary material-icons-close icon-lg"></span></td>
-                      <td><img src="/ui/images/cart-1-29x83.png" alt="" width="29" height="83"/>
+                      <td colspan="2">
+                      
                       </td>
-                      <td><a class="text-gray-darker" href="single-product.html"> Allegra Childrens 12 Hour Allergy Liquid, 4 oz</a></td>
-                      <td>$5.10</td>
-                      <td>1</td>
-                      <td>$5.10</td>
-                    </tr>
-                    <tr>
-                      <td><span class="icon icon-primary material-icons-close icon-lg"></span></td>
-                      <td><img src="/ui/images/cart-2-40x78.png" alt="" width="40" height="78"/>
+                      <td coslpan="4">
+                        
                       </td>
-                      <td><a class="text-gray-darker" href="single-product.html"> Centrum Adults, 200 tablets</a></td>
-                      <td>$3.50</td>
-                      <td>1</td>
-                      <td>$3.50</td>
-                    </tr>
-                    <tr>
-                      <td> </td>
-                      <td class="text-regular">All items</td>
-                      <td class="text-regular">Description</td>
-                      <td class="text-regular">Your total</td>
-                      <td class="text-gray-darker"> 2</td>
-                      <td class="text-gray-darker"> $8.60</td>
+                      <td colspan="2">
+                        <h3 style="color: #666">Grand Total </h3>
+                      </td>
+                      <td >
+                        <h3 style="color: #666">@money($total, 'NGN')</h3>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                @else
+                  <div class="alert alert-info">No product in cart </div>
+                @endif
               </div>
             </div>
             <div class="cell-md-4">
@@ -95,7 +110,9 @@
                 </div>
               </form>
             </div>
-            <div class="cell-md-3 text-md-right shopping-button-block"><a class="button button-primary" href="#">update your cart</a><a class="button button-primary" href="#">proceed to Checkout</a></div>
+            <div class="cell-md-3 text-md-right shopping-button-block">
+            {{-- <a class="button button-primary" href="#">update your cart</a> --}}
+            <a class="button button-primary" href="/account/sign-up">proceed to Checkout</a></div>
           </div>
         </div>
       </section>

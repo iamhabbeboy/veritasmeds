@@ -45,5 +45,6 @@
    <!-- Javascript-->
     <script src="/ui/js/core.min.js"></script>
     <script src="/ui/js/script.js"></script>
+    @include('includes.script')
   </body>
 </html>
