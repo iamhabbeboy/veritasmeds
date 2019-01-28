@@ -31,6 +31,7 @@ Route::group(['prefix' => 'account'], function () {
     Route::post('/auth', 'AccountController@auth');
     Route::post('/login-auth', 'AccountController@loginAuth');
     Route::get('/signout', 'AccountController@signout');
+    Route::post('/review', 'ReviewController@store');
     Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
 });
 

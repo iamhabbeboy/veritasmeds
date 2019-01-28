@@ -53,8 +53,8 @@ class AccountController extends Controller
         }
         $data = $request->all();
         $data['password'] = Hash::make($request->password);
-        $this->account->create($data);
-
+        $lastId = $this->account->create($data);
+        $data['id'] = $lastId;
         session(['pharm_account' => $data]);
         return redirect(route('account_dashboard'));
     }

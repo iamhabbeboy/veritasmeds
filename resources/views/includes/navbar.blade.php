@@ -19,8 +19,12 @@
                 </div>
                 <div class="block-right">
                   <ul class="list-inline">
-                    <li><a href="/account/login">Log In</a></li>
-                    <li><a href="/account/sign-up">Create an account</a></li>
+                    @if (Session::has('pharm_account'))
+                      <li>Login as <a href="/account/dashboard">{{Session('pharm_account')->name}}</a></li>
+                    @else
+                      <li><a href="/account/login">Log In</a></li>
+                      <li><a href="/account/sign-up">Create an account</a></li>
+                    @endif
                   </ul>
                 </div>
               </div>

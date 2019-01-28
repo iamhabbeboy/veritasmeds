@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Picture;
 use App\Product;
+use App\Review;
 use Illuminate\Http\Request;
 use Session;
 
@@ -14,12 +15,14 @@ class ProductController extends Controller
      * @var mixed
      */
     protected $product;
+    protected $reviews;
     /**
      * @param Product $product
      */
-    public function __construct(Product $product)
+    public function __construct(Product $product, Review $review)
     {
         $this->product = $product;
+        $this->reviews = $review;
     }
     public function index()
     {
@@ -75,6 +78,7 @@ class ProductController extends Controller
         }
         $product = $this->product->loadProducts(['id' => $id])
             ->first()->toArray();
-        return view('single-product', compact('product'));
+        $reviews = $this->reviews->loadReview($id)->get();
+        return view('single-product', compact('product', 'reviews'));
     }
 }

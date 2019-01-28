@@ -62,7 +62,7 @@
             <div class="cell-md-5 cell-lg-5">
               <h3 class="section-title">{{array_get($product, 'title')}}</h3>
               <p class="large">{!! array_get($product, 'description') !!}</p>
-        
+
               @if(array_get($product, 'has_brand'))
                 <p class="large">Manufactured by {{array_get($product, 'has_brand.title')}}</p>
               @endif
@@ -124,65 +124,53 @@
             </div>
             <div class="cell-md-5 cell-lg-5">
               <h4>Reviews</h4>
+              @if (Session::has('msg'))
+                <br/>
+                <div class="alert-info alert">{{Session('msg')}}</div>
+              @endif
+
+              @if (count($reviews) > 0)
+                @foreach($reviews as $review)
+                  <div class="comment">
+                    <div class="comment-inner">
+                      <div class="comment-left"><img class="img-circle" src="/images/avatar.png" alt="" width="70" height="70"/>
+                      </div>
+                      <div class="comment-body">
+                        <div class="comment-body-header">
+                          <div class="comment-name">{{$review->hasAccount->name}}    </div>
+                          <div class="comment-time">{{$review->created_at->diffForHumans()}}</div>
+                        </div>
+                        <div class="comment-body-content">
+                          <p>{{$review->content}} </p>
+                        {{--   <ul class="list-inline list-inline-lg">
+                            <li>
+                              <div class="object-inline object-inline-lg"><span class="icon mdi-thumb-up-outline"></span><a class="text-spacing-80 text-gray-darker text-bold" href="#">32</a></div>
+                            </li>
+                            <li>
+                              <div class="object-inline object-inline-lg text-spacing-0"><span class="icon mdi-comment-outline"></span><a class="text-gray-darker text-bold" href="#">Reply</a></div>
+                            </li>
+                          </ul> --}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @endforeach
+              @endif
+              @if (Session::has('pharm_account'))
               <div class="comment">
                 <div class="comment-inner">
-                  <div class="comment-left"><img class="img-circle" src="/ui/images/blog-post-01-70x70.jpg" alt="" width="70" height="70"/>
-                  </div>
-                  <div class="comment-body">
-                    <div class="comment-body-header">
-                      <div class="comment-name">Jessica H. Wheaton</div>
-                      <div class="comment-time">3 days ago</div>
-                    </div>
-                    <div class="comment-body-content">
-                      <p>I loved everything about buying from you! My purchase was carefully packaged and quickly shipped. I was also pleased with great service and delivery times. There is no such awesome store on the web. </p>
-                      <ul class="list-inline list-inline-lg">
-                        <li>
-                          <div class="object-inline object-inline-lg"><span class="icon mdi-thumb-up-outline"></span><a class="text-spacing-80 text-gray-darker text-bold" href="#">32</a></div>
-                        </li>
-                        <li>
-                          <div class="object-inline object-inline-lg text-spacing-0"><span class="icon mdi-comment-outline"></span><a class="text-gray-darker text-bold" href="#">Reply</a></div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="comment">
-                <div class="comment-inner">
-                  <div class="comment-left"><img class="img-circle" src="/ui/images/blog-post-02-70x70.jpg" alt="" width="70" height="70"/>
-                  </div>
-                  <div class="comment-body">
-                    <div class="comment-body-header">
-                      <div class="comment-name">John H. White     </div>
-                      <div class="comment-time">1 day ago</div>
-                    </div>
-                    <div class="comment-body-content">
-                      <p>Hi, my order arrived yesterday. I love it! Thank you! What a fast service...you guys are great! I wish every site was like this one. I will surely share my experience with my friends! </p>
-                      <ul class="list-inline list-inline-lg">
-                        <li>
-                          <div class="object-inline object-inline-lg"><span class="icon mdi-thumb-up-outline"></span><a class="text-spacing-80 text-gray-darker text-bold" href="#">32</a></div>
-                        </li>
-                        <li>
-                          <div class="object-inline object-inline-lg text-spacing-0"><span class="icon mdi-comment-outline"></span><a class="text-gray-darker text-bold" href="#">Reply</a></div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="comment">
-                <div class="comment-inner">
-                  <div class="comment-left"><img class="img-circle" src="/ui/images/blog-post-01-70x70.jpg" alt="" width="70" height="70"/>
+                  <div class="comment-left"><img class="img-circle" src="/images/avatar.png" alt="" width="70" height="70"/>
                   </div>
                   <div class="comment-body" style="width: 100%; padding-right: 10px">
                     <div class="comment-body-header">
-                      <div class="comment-name">Tamara H. Jackson  </div>
+                      <div class="comment-name">{{Session('pharm_account')->name}} </div>
                     </div>
                     <div class="comment-body-content">
-                      <form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post">
+                      <form class="" data-form-output="form-output-global" data-form-type="contact" method="post" action="/account/review">
+                        @csrf
                         <div class="form-wrap form-wrap-validation">
                           <label class="form-label" for="forms-2-message">Your review</label>
-                          <textarea class="form-input" id="forms-2-message" name="message" data-constraints="@Required"></textarea>
+                          <textarea class="form-input" id="forms-2-message" name="content" data-constraints="@Required"></textarea>
                         </div>
                         <div class="form-button text-right">
                           <button class="button button-primary" type="submit">Submit</button>
@@ -192,6 +180,9 @@
                   </div>
                 </div>
               </div>
+              @else
+                <a href="{{route('account.login')}}">Login to write review </a>
+              @endif
             </div>
           </div>
         </div>
